@@ -1,0 +1,16 @@
+# Image Not Found Setup
+
+## Instructions:
+1. Download atau buat image "image-not-found.jpg" 
+2. Simpan file tersebut di folder `public/image-not-found.jpg`
+3. Ukuran yang disarankan: 400x300 pixels
+4. File ini akan digunakan sebagai fallback ketika gambar menu tidak bisa dimuat
+
+## Alternative:
+Jika tidak ingin download, Anda bisa copy image apapun ke public folder dan rename menjadi "image-not-found.jpg"
+
+## Usage:
+File ini sudah diintegrasikan di:
+- Dashboard menu terlaris
+- Dashboard orders table
+- Sistem akan otomatis fallback ke image ini jika URL menu error
