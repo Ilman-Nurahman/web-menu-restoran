@@ -142,12 +142,15 @@
         }
 
         .chart-card .card-body {
-            height: 500px; /* Fixed height for chart */
+            height: 500px;
+            /* Fixed height for chart */
         }
 
         .menu-terlaris-card .card-body {
-            height: 500px; /* Same height as chart */
-            overflow-y: auto; /* Enable scrolling */
+            height: 500px;
+            /* Same height as chart */
+            overflow-y: auto;
+            /* Enable scrolling */
             padding: 1.5rem;
         }
 
@@ -208,7 +211,8 @@
             }
 
             .main-container {
-                margin-top: 76px; /* Keep margin for mobile too */
+                margin-top: 76px;
+                /* Keep margin for mobile too */
             }
 
             .main-content {
@@ -230,11 +234,13 @@
             }
 
             .chart-card .card-body {
-                height: 300px; /* Smaller height on mobile */
+                height: 300px;
+                /* Smaller height on mobile */
             }
 
             .menu-terlaris-card .card-body {
-                height: 300px; /* Smaller height on mobile */
+                height: 300px;
+                /* Smaller height on mobile */
             }
 
             .top-menu-item {
@@ -269,14 +275,12 @@
 </head>
 
 <body>
-    <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container-fluid">
             <a class="navbar-brand fw-bold" href="{{ route('dashboard') }}">
                 <i class="bi bi-bowl-hot me-2"></i>
                 Nusantara Ramen - Dashboard
             </a>
-            
             <div class="navbar-nav ms-auto d-flex align-items-center">
                 <div class="dropdown">
                     <button class="btn btn-outline-light dropdown-toggle" type="button" data-bs-toggle="dropdown">
@@ -290,7 +294,9 @@
                                 Ke Menu Utama
                             </a>
                         </li>
-                        <li><hr class="dropdown-divider"></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
                         <li>
                             <form action="{{ route('logout') }}" method="POST" class="m-0">
                                 @csrf
@@ -306,7 +312,6 @@
         </div>
     </nav>
 
-    <!-- Messages -->
     @if(session('success'))
     <div class="alert alert-success alert-dismissible fade show m-0" role="alert">
         <div class="container-fluid">
@@ -319,7 +324,6 @@
 
     <div class="container-fluid main-container">
         <div class="row">
-            <!-- Sidebar -->
             <div class="col-md-3 col-lg-2 px-0">
                 <div class="sidebar">
                     <nav class="nav flex-column">
@@ -339,22 +343,19 @@
                 </div>
             </div>
 
-            <!-- Main Content -->
             <div class="col-md-9 col-lg-10">
                 <div class="main-content">
-                    <!-- Welcome Section -->
                     <div class="welcome-section">
                         <h1 class="welcome-title">
                             <i class="bi bi-emoji-smile me-2"></i>
                             Selamat Datang, {{ Auth::user()->name }}!
                         </h1>
                         <p class="welcome-subtitle">
-                            {{ \Carbon\Carbon::now()->locale('id')->translatedFormat('l, d F Y') }} - 
+                            {{ \Carbon\Carbon::now()->locale('id')->translatedFormat('l, d F Y') }} -
                             Dashboard Manajemen Restoran
                         </p>
                     </div>
 
-                    <!-- Statistics Cards -->
                     <div class="row mb-4">
                         <div class="col-lg-6 mb-4">
                             <div class="card stats-card">
@@ -367,7 +368,6 @@
                                 </div>
                             </div>
                         </div>
-                        
                         <div class="col-lg-6 mb-4">
                             <div class="card stats-card">
                                 <div class="card-body text-center">
@@ -382,7 +382,6 @@
                     </div>
 
                     <div class="row">
-                        <!-- Revenue Chart -->
                         <div class="col-lg-8 mb-4">
                             <div class="card chart-card">
                                 <div class="card-header">
@@ -397,7 +396,6 @@
                             </div>
                         </div>
 
-                        <!-- Top Menu Items -->
                         <div class="col-lg-4 mb-4">
                             <div class="card chart-card menu-terlaris-card">
                                 <div class="card-header">
@@ -409,10 +407,10 @@
                                 <div class="card-body">
                                     @forelse($topMenus as $menu)
                                     <div class="top-menu-item">
-                                        <img src="{{ $menu->image }}" 
-                                             alt="{{ $menu->name }}" 
-                                             class="top-menu-image"
-                                             onerror="this.src='{{ asset('image-not-found.jpg') }}'">
+                                        <img src="{{ $menu->image }}"
+                                            alt="{{ $menu->name }}"
+                                            class="top-menu-image"
+                                            onerror="this.src='{{ asset('image-not-found.jpg') }}'">
                                         <div class="flex-grow-1">
                                             <h6 class="mb-1">{{ $menu->name }}</h6>
                                             <small class="text-muted">{{ $menu->total_quantity }} porsi</small>

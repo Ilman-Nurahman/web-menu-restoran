@@ -458,7 +458,8 @@
             }
 
             .main-container {
-                margin-top: 76px; /* Keep margin for mobile too */
+                margin-top: 76px;
+                /* Keep margin for mobile too */
             }
 
             .main-content {
@@ -515,7 +516,6 @@
 </head>
 
 <body>
-    <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container-fluid">
             <a class="navbar-brand fw-bold" href="{{ route('dashboard') }}">
@@ -556,7 +556,7 @@
 
     <div class="container-fluid main-container">
         <div class="row">
-            <!-- Sidebar -->
+
             <div class="col-md-3 col-lg-2 px-0">
                 <div class="sidebar">
                     <nav class="nav flex-column">
@@ -576,10 +576,8 @@
                 </div>
             </div>
 
-            <!-- Main Content -->
             <div class="col-md-9 col-lg-10">
                 <div class="main-content">
-                    <!-- Page Header -->
                     <div class="page-header">
                         <h1 class="page-title">
                             <i class="bi bi-list-ul me-2"></i>
@@ -590,7 +588,6 @@
                         </p>
                     </div>
 
-                    <!-- Orders Table -->
                     <div class="orders-table-container">
                         @if($orders->count() > 0)
                         <div class="table-responsive-horizontal">
@@ -686,7 +683,6 @@
                             </table>
                         </div>
 
-                        <!-- Pagination Section -->
                         <div class="pagination-section">
                             <div class="row align-items-center">
                                 <div class="col-md-6">
@@ -728,7 +724,6 @@
                             </div>
                         </div>
                         @else
-                        <!-- Empty State -->
                         <div class="empty-state">
                             <i class="bi bi-inbox empty-icon"></i>
                             <h4>Belum Ada Pesanan</h4>
@@ -741,7 +736,6 @@
         </div>
     </div>
 
-    <!-- Modal Konfirmasi Status -->
     <div class="modal fade" id="confirmStatusModal" tabindex="-1" aria-labelledby="confirmStatusModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -771,7 +765,6 @@
         </div>
     </div>
 
-    <!-- Modal Success -->
     <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-sm">
             <div class="modal-content">
@@ -813,10 +806,8 @@
             currentOrderId = orderId;
             currentButton = event.target;
             originalButtonText = currentButton.innerHTML;
-            
             // Update order ID di modal
             document.getElementById('orderIdDisplay').textContent = `#${String(orderId).padStart(4, '0')}`;
-            
             // Show modal
             const modal = new bootstrap.Modal(document.getElementById('confirmStatusModal'));
             modal.show();
@@ -847,7 +838,6 @@
                         // Show success modal
                         const successModal = new bootstrap.Modal(document.getElementById('successModal'));
                         successModal.show();
-                        
                         // Auto close success modal dan reload
                         setTimeout(() => {
                             successModal.hide();
@@ -893,10 +883,8 @@
         // Initialize on document ready
         document.addEventListener('DOMContentLoaded', function() {
             initTableScroll();
-            
             // Event listener untuk tombol konfirmasi
             document.getElementById('confirmCompleteBtn').addEventListener('click', processStatusUpdate);
-            
             // Reset variables saat modal ditutup
             document.getElementById('confirmStatusModal').addEventListener('hidden.bs.modal', function() {
                 currentOrderId = null;

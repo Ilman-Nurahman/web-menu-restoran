@@ -846,17 +846,15 @@
     <!-- Footer -->
     <footer class="mt-5 py-4" style="background-color: var(--primary-color); color: white;">
         <div class="container text-center">
-            <p class="mb-0">&copy; 2025 Ramen House. Dibuat dengan ❤️ untuk pecinta ramen.</p>
+            <p class="mb-0">&copy; 2025 Kelompok 1 (17.6A.05).</p>
         </div>
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // Cart functionality with localStorage fallback
         let cart = [];
         let cartUpdateCallbacks = [];
 
-        // Initialize cart from localStorage with error handling
         function initializeCart() {
             try {
                 const savedCart = localStorage.getItem('ramenCart');
@@ -874,7 +872,6 @@
             }
         }
 
-        // Format currency
         function formatCurrency(amount) {
             return new Intl.NumberFormat('id-ID', {
                 style: 'currency',
@@ -883,12 +880,10 @@
             }).format(amount).replace('IDR', 'Rp');
         }
 
-        // Register callback for cart updates
         function onCartUpdate(callback) {
             cartUpdateCallbacks.push(callback);
         }
 
-        // Execute all cart update callbacks
         function executeCartCallbacks() {
             cartUpdateCallbacks.forEach(callback => {
                 try {
@@ -899,18 +894,15 @@
             });
         }
 
-        // Add item to cart with validation
         function addToCart(id, name, price, description, image) {
-            // Validate input parameters
             if (!id || !name || !price || price <= 0) {
                 showNotification('Data menu tidak valid', 'error');
                 return;
             }
 
-            const existingItem = cart.find(item => item.id == id); // Use loose comparison for flexibility
+            const existingItem = cart.find(item => item.id == id);
 
             if (existingItem) {
-                // Check quantity limit
                 if (existingItem.quantity >= 99) {
                     showNotification('Maksimal 99 item per menu', 'warning');
                     return;
@@ -919,7 +911,7 @@
                 existingItem.subtotal = existingItem.price * existingItem.quantity;
             } else {
                 cart.push({
-                    id: String(id), // Ensure consistent string format
+                    id: String(id),
                     name: String(name),
                     price: parseFloat(price),
                     description: String(description || ''),
@@ -933,7 +925,6 @@
             showCartNotification(name);
         }
 
-        // Enhanced notification system
         function showNotification(message, type = 'success', duration = 3000) {
             const typeClasses = {
                 'success': 'bg-success',
@@ -968,7 +959,6 @@
             const bsToast = new bootstrap.Toast(toast, { delay: duration });
             bsToast.show();
 
-            // Remove toast after hiding
             toast.addEventListener('hidden.bs.toast', () => {
                 document.body.removeChild(toast);
             });
@@ -976,18 +966,15 @@
             return bsToast;
         }
 
-        // Show notification when item added
         function showCartNotification(itemName) {
             showNotification(`${itemName} ditambahkan ke keranjang`, 'success');
         }
 
-        // Update cart display
         function updateCart() {
             try {
                 localStorage.setItem('ramenCart', JSON.stringify(cart));
             } catch (error) {
                 console.error('Failed to save cart to localStorage:', error);
-                // Fallback: continue without localStorage
             }
 
             const cartBadge = document.getElementById('cartBadge');
@@ -999,7 +986,6 @@
             const clearCartBtn = document.getElementById('clearCart');
             const checkoutBtn = document.getElementById('checkoutBtn');
 
-            // Update badge and mobile cart count
             const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
             
             if (cartBadge) {
@@ -1011,8 +997,7 @@
                 mobileCartCount.textContent = totalItems;
                 mobileCartCount.style.display = totalItems > 0 ? 'flex' : 'none';
             }
-            
-            // Add animation class if items exist
+
             if (totalItems > 0) {
                 cartBadge?.classList.add('has-items');
                 setTimeout(() => cartBadge?.classList.remove('has-items'), 500);
@@ -1072,11 +1057,9 @@
                 if (cartTotal) cartTotal.textContent = formatCurrency(totalAmount);
             }
 
-            // Execute all registered callbacks
             executeCartCallbacks();
         }
 
-        // Update quantity with bounds checking
         function updateQuantity(index, change) {
             if (!cart[index]) {
                 showNotification('Item tidak ditemukan', 'error');
@@ -1086,7 +1069,6 @@
             const newQuantity = cart[index].quantity + change;
 
             if (newQuantity <= 0) {
-                // Remove item with confirmation for negative change
                 if (change < 0) {
                     cart.splice(index, 1);
                     showNotification('Item dihapus dari keranjang', 'info');
@@ -1102,7 +1084,6 @@
             updateCart();
         }
 
-        // Clear cart with enhanced confirmation
         function clearCart() {
             if (cart.length === 0) {
                 showNotification('Keranjang sudah kosong', 'info');
@@ -1113,8 +1094,7 @@
                 cart = [];
                 updateCart();
                 showNotification('Keranjang berhasil dikosongkan', 'success');
-                
-                // Clear form jika ada
+
                 const checkoutForm = document.getElementById('checkoutForm');
                 if (checkoutForm) {
                     checkoutForm.reset();
@@ -1122,7 +1102,6 @@
             }
         }
 
-        // Checkout process
         function checkout() {
             const customerName = document.getElementById('customerName').value.trim();
             const customerPhone = document.getElementById('customerPhone').value.trim();
@@ -1139,20 +1118,17 @@
                 return;
             }
 
-            // Validate phone number (enhanced)
             const phoneRegex = /^[\d\s\-\+\(\)]+$/;
             if (!phoneRegex.test(customerPhone) || customerPhone.length < 10) {
                 showNotification('Nomor telepon tidak valid. Minimal 10 digit.', 'warning');
                 return;
             }
 
-            // Disable checkout button to prevent double submission
             const checkoutBtn = document.getElementById('checkoutBtn');
             const originalText = checkoutBtn.innerHTML;
             checkoutBtn.disabled = true;
             checkoutBtn.innerHTML = '<i class="bi bi-hourglass-split me-2"></i>Memproses...';
 
-            // Validate cart items
             const validatedCart = cart.filter(item => {
                 return item.id && item.name && item.price > 0 && item.quantity > 0 && item.image;
             });
@@ -1173,13 +1149,11 @@
                 total_amount: validatedCart.reduce((sum, item) => sum + item.subtotal, 0)
             };
 
-            // Debug: log cart items to check images
             console.log('Order data being sent:', orderData);
             validatedCart.forEach(item => {
                 console.log(`Item: ${item.name}, Image: ${item.image || 'No image'}`);
             });
 
-            // Send to server
             fetch('{{ route("order.store") }}', {
                     method: 'POST',
                     headers: {
@@ -1196,21 +1170,16 @@
                 })
                 .then(data => {
                     if (data.success) {
-                        // Clear cart
                         cart = [];
                         updateCart();
 
-                        // Clear form
                         document.getElementById('checkoutForm').reset();
 
-                        // Close modal
                         const cartModal = bootstrap.Modal.getInstance(document.getElementById('cartModal'));
                         cartModal.hide();
 
-                        // Show success message
                         showNotification('Pesanan berhasil dibuat! Terima kasih.', 'success');
-                        
-                        // Redirect after short delay
+
                         setTimeout(() => {
                             window.location.href = `{{ url('/order/confirmation') }}/${data.order_id}`;
                         }, 1500);
@@ -1228,34 +1197,28 @@
                 });
         }
 
-        // Enhanced category filtering with smooth transitions
         document.addEventListener('DOMContentLoaded', function() {
-            // Initialize cart
             initializeCart();
             updateCart();
 
-            // Mobile detection
             const isMobile = window.innerWidth <= 768;
             const mobileCartBtn = document.getElementById('mobileCartBtn');
             const mobileCartCount = document.getElementById('mobileCartCount');
             const scrollToTopBtn = document.getElementById('scrollToTop');
 
-            // Show mobile cart button on small screens
             if (isMobile) {
                 mobileCartBtn.style.display = 'flex';
             }
 
-            // Cart event listeners
             document.getElementById('clearCart').addEventListener('click', clearCart);
             document.getElementById('checkoutBtn').addEventListener('click', checkout);
 
-            // Enhanced form validation
             const customerNameInput = document.getElementById('customerName');
             const customerPhoneInput = document.getElementById('customerPhone');
             
             if (customerNameInput) {
                 customerNameInput.addEventListener('input', function() {
-                    this.value = this.value.replace(/[^a-zA-Z\s]/g, ''); // Only letters and spaces
+                    this.value = this.value.replace(/[^a-zA-Z\s]/g, '');
                     if (this.value.length > 50) {
                         this.value = this.value.slice(0, 50);
                     }
@@ -1264,7 +1227,6 @@
 
             if (customerPhoneInput) {
                 customerPhoneInput.addEventListener('input', function() {
-                    // Allow only numbers, spaces, +, -, (, )
                     this.value = this.value.replace(/[^\d\s\-\+\(\)]/g, '');
                     if (this.value.length > 15) {
                         this.value = this.value.slice(0, 15);
@@ -1272,7 +1234,6 @@
                 });
             }
 
-            // Add to cart button listeners with loading state
             document.querySelectorAll('.add-to-cart-btn').forEach(button => {
                 button.addEventListener('click', function() {
                     const id = this.dataset.id;
@@ -1280,31 +1241,24 @@
                     const price = parseFloat(this.dataset.price);
                     const description = this.dataset.description;
                     const image = this.dataset.image;
-                    
-                    // Add loading state
+
                     const originalText = this.innerHTML;
                     this.disabled = true;
                     this.innerHTML = '<i class="bi bi-hourglass-split me-2"></i>Menambah...';
-                    
-                    // Simulate async operation
+
                     setTimeout(() => {
                         addToCart(id, name, price, description, image);
-                        
-                        // Restore button state
+
                         this.disabled = false;
                         this.innerHTML = originalText;
-                        
-                        // Scroll to top on mobile after adding to cart
+
                         if (isMobile) {
                             window.scrollTo({ top: 0, behavior: 'smooth' });
                         }
-                    }, 300); // Small delay for better UX
+                    }, 300);
                 });
             });
 
-            // Mobile cart functionality is now integrated in updateCart function
-
-            // Scroll to top functionality
             window.addEventListener('scroll', function() {
                 if (window.pageYOffset > 300) {
                     scrollToTopBtn.style.display = 'flex';
@@ -1317,7 +1271,6 @@
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             });
 
-            // Responsive adjustments
             window.addEventListener('resize', function() {
                 const isMobileNow = window.innerWidth <= 768;
                 if (isMobileNow) {
@@ -1335,22 +1288,18 @@
                 button.addEventListener('click', function(e) {
                     e.preventDefault();
 
-                    // Show loading
                     menuContainer.style.opacity = '0';
                     loadingSpinner.style.display = 'block';
 
-                    // Update active state
                     categoryButtons.forEach(btn => btn.classList.remove('active'));
                     this.classList.add('active');
 
-                    // Simulate loading and redirect
                     setTimeout(() => {
                         window.location.href = this.href;
                     }, 300);
                 });
             });
 
-            // Add smooth scroll to top when page loads
             if (window.location.search.includes('category=')) {
                 window.scrollTo({
                     top: 0,
@@ -1358,7 +1307,6 @@
                 });
             }
 
-            // Add hover effects to cards
             const menuCards = document.querySelectorAll('.menu-card');
             menuCards.forEach(card => {
                 card.addEventListener('mouseenter', function() {

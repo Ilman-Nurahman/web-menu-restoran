@@ -17,15 +17,13 @@ class MenuController extends Controller
     public function index(Request $request)
     {
         $categoryId = $request->get('category');
-        
-        // Ambil semua categories untuk filter
+
         $categories = Category::all();
         $categoriesForFilter = ['all' => 'Semua Menu'];
         foreach ($categories as $cat) {
             $categoriesForFilter[$cat->id] = $cat->category_name;
         }
-        
-        // Query menu items dari database
+
         $query = Menu::with('category')->available();
         
         if ($categoryId && $categoryId !== 'all') {
@@ -52,7 +50,6 @@ class MenuController extends Controller
     public function storeOrder(Request $request)
     {
         try {
-            // Enhanced validation with custom messages
             $validated = $request->validate([
                 'customer_name' => 'required|string|min:2|max:255|regex:/^[a-zA-Z\s]+$/',
                 'customer_phone' => 'required|string|min:10|max:20|regex:/^[\d\s\-\+\(\)]+$/',
@@ -149,23 +146,19 @@ class MenuController extends Controller
     public function orderConfirmation($orderId)
     {
         try {
-            // Step 1: Load order basic data
             $order = Order::find($orderId);
             
             if (!$order) {
                 return redirect()->route('menu.index')
                     ->with('error', 'Pesanan tidak ditemukan.');
             }
-            
-            // Step 2: Load order items manually to avoid relationship issues
+
             $orderItems = OrderItem::select('*')
                 ->where('order_id', $orderId)
                 ->get();
             
-            // Step 3: Manually assign the relationship
             $order->orderItems = $orderItems;
-            
-            // Step 4: Debug info
+
             Log::info('Order confirmation loaded', [
                 'order_id' => $orderId,
                 'items_count' => $orderItems->count(),
@@ -203,7 +196,6 @@ class MenuController extends Controller
             'password' => 'required|string',
         ]);
 
-        // Attempt to login with email and password
         $credentials = [
             'email' => $request->username,
             'password' => $request->password,
@@ -211,8 +203,7 @@ class MenuController extends Controller
 
         if (Auth::attempt($credentials, $request->has('remember'))) {
             $user = Auth::user();
-            
-            // Check if user has kasir role
+
             if ($user->role !== 'kasir') {
                 Auth::logout();
                 return back()->with('error', 'Akses ditolak! Anda bukan kasir.')->withInput();

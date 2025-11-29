@@ -654,7 +654,6 @@
     </style>
 </head>
 <body>
-    <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container">
             <a class="navbar-brand" href="{{ route('menu.index') }}">
@@ -664,7 +663,6 @@
         </div>
     </nav>
 
-    <!-- Confirmation Header -->
     <section class="confirmation-header">
         <div class="container text-center">
             <div class="success-icon">
@@ -675,11 +673,9 @@
         </div>
     </section>
 
-    <!-- Main Content -->
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-lg-8">
-                <!-- Order Details -->
                 <div class="order-card fade-in">
                     <div class="d-flex justify-content-between align-items-center mb-4 flex-column flex-md-row">
                         <h3 class="mb-2 mb-md-0 text-center text-md-start">
@@ -692,7 +688,6 @@
                         </span>
                     </div>
 
-                    <!-- Order Info -->
                     <div class="order-info">
                         <div class="row">
                             <div class="col-md-6 col-sm-6 mb-3">
@@ -720,7 +715,6 @@
                         </div>
                     </div>
 
-                    <!-- Order Items -->
                     <h5 class="mb-3">
                         <i class="bi bi-list-ul me-2"></i>
                         Item Pesanan ({{ $order->orderItems ? $order->orderItems->count() : 0 }} items)
@@ -782,7 +776,6 @@
                     </div>
                     @endif
 
-                    <!-- Total -->
                     <div class="total-section">
                         <div class="d-flex justify-content-between align-items-center">
                             <h4 class="mb-0">Total Pembayaran</h4>
@@ -791,7 +784,6 @@
                     </div>
                 </div>
 
-                <!-- Actions -->
                 <div class="order-card fade-in">
                     <h5 class="mb-4">
                         <i class="bi bi-info-circle me-2"></i>
@@ -824,7 +816,6 @@
         </div>
     </div>
 
-    <!-- Footer -->
     <footer class="mt-5 py-4" style="background-color: var(--primary-color); color: white;">
         <div class="container text-center">
             <p class="mb-0">&copy; 2025 Nusantara Ramen. Dibuat dengan ❤️ untuk pecinta ramen.</p>

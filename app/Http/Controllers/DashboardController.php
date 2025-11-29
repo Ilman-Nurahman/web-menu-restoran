@@ -69,7 +69,6 @@ class DashboardController extends Controller
             $chartData[] = $revenue ? $revenue->revenue : 0;
         }
 
-        // Menu terlaris hari ini - dengan fallback jika tidak ada data (hanya completed orders)
         try {
             $topMenus = OrderItem::select('order_items.menu_name as name', 'order_items.menu_image as image', DB::raw('SUM(order_items.quantity) as total_quantity'))
                 ->join('orders', 'order_items.order_id', '=', 'orders.id')
@@ -80,7 +79,6 @@ class DashboardController extends Controller
                 ->limit(5)
                 ->get();
         } catch (\Exception $e) {
-            // Jika ada error dengan query menu terlaris, gunakan array kosong
             $topMenus = collect();
         }
 
